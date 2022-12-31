@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "57602630729",
+    "project_id": "flutterexam-e01d8",
+    "storage_bucket": "flutterexam-e01d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57602630729:android:2de8c69b4b87b68bab8b98",
+        "android_client_info": {
+          "package_name": "com.dragan.tp_flutter_3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57602630729-gn7s403qr5r3nvt6p9oolkr6bnert4qk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEebaB-ZfZ4eCPURyaxJo6qheqr6iW7PM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57602630729-gn7s403qr5r3nvt6p9oolkr6bnert4qk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
