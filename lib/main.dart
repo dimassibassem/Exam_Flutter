@@ -7,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'admin_options.dart';
 import 'user_options.dart';
 
-CollectionReference users = FirebaseFirestore.instance.collection('users');
 
 Future<void> login(String email, String password, context) async {
   try {
@@ -138,20 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // if (_email == "admin" && _password == "admin") {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => const ItemsListScreen(),
-                      //     ),
-                      //   );
-                      // } else {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text("Invalid email or password"),
-                      //     ),
-                      //   );
-                      // }
                       login(_email, _password, context);
                     },
                     child: const Text("Login"),
