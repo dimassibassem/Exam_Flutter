@@ -74,7 +74,7 @@ class _AddItemScreen extends State<AddItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login or Register'),
+        title: const Text('Add Dishes'),
       ),
       body: SafeArea(
         child: Container(
