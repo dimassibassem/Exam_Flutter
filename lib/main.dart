@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tp_flutter_3/register_screen.dart';
-import 'items_list_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

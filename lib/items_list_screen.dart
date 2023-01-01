@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class Dish {
   final String dish;
@@ -20,30 +21,35 @@ class ItemsListScreen extends StatefulWidget {
   State<ItemsListScreen> createState() => _ItemsListScreenState();
 }
 
-Future<void> getDishes() {
+Future<void> getDishes() async {
   final fetchedDishes = [];
-  return FirebaseFirestore.instance
-      .collection('dishes')
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-    querySnapshot.docs.forEach((doc) {
-      fetchedDishes.add(Dish(
-        dish: doc['dish'],
-        description: doc['description'],
-        photo: doc['photo'],
-      ));
-    });
-    _listDishes = fetchedDishes;
-  });
+  try {
+        FirebaseFirestore.instance
+          .collection('dishes')
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          fetchedDishes.add(Dish(
+            dish: doc['dish'],
+            description: doc['description'],
+            photo: doc['photo'],
+          ));
+        }
+        _listDishes = fetchedDishes;
+      });
+  } catch (e) {
+    print(e);
+  }
 }
 
 var _listDishes = [];
 
 class _ItemsListScreenState extends State<ItemsListScreen> {
+  @override
   void initState() {
     super.initState();
     try {
-      getDishes();
+       getDishes();
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error.toString())),
