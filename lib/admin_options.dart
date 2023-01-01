@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'items_list_screen.dart';
+import 'admin_list_screen.dart';
 
 class AdminOptionsScreen extends StatefulWidget {
   const AdminOptionsScreen({Key? key}) : super(key: key);
