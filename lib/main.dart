@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tp_flutter_3/register_screen.dart';
 import 'items_list_screen.dart';
