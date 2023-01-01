@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'main.dart';
 
 CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -8,6 +9,10 @@ Future<void> addUser(email, password, confirmPassword, context) {
   return users
       .add({'email': email, 'password': password, 'role': 'simple_user'})
       .then((value) => print("User Added"))
+      .then((value) => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          ))
       .catchError((error) => print("Failed to add user: $error"));
 }
 
