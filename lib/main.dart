@@ -4,28 +4,43 @@ import 'package:tp_flutter_3/register_screen.dart';
 import 'items_list_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+CollectionReference users = FirebaseFirestore.instance.collection('users');
 
 Future<void> login(String email, String password, context) async {
   try {
-    final UserCredential result = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    final User? user = result.user;
-    print('Successfully logged in user: ${user?.uid}');
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ItemsListScreen(),
-      ),
-    );
+    FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .where('password', isEqualTo: password)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        querySnapshot.docs.forEach((doc) {
+          if (doc["role"] == "admin") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ItemsListScreen()),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ItemsListScreen()),
+            );
+          }
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Invalid email or password"),
+          ),
+        );
+      }
+    });
   } catch (error) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Invalid email or password"),
-      ),
+      SnackBar(content: Text(error.toString())),
     );
     print(error.toString());
   }
@@ -36,6 +51,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MyApp());
 }
 

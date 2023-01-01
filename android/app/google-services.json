@@ -29,6 +29,13 @@
             {
               "client_id": "57602630729-gn7s403qr5r3nvt6p9oolkr6bnert4qk.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "57602630729-jf5u10e6pft56k4m7htn85mo1bp4g1lf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dragan.tpFlutter3"
+              }
             }
           ]
         }

@@ -1,16 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-Future<void> registerUser(String email, String password) async {
+Future<void> addUser(email, password, confirmPassword, context) {
+  // Call the user's CollectionReference to add a new user
+  return users
+      .add({'email': email, 'password': password, 'role': 'simple_user'})
+      .then((value) => print("User Added"))
+      .catchError((error) => print("Failed to add user: $error"));
+}
+
+Future<void> registerUser(
+    String email, String password, String confirmPassword, context) async {
   try {
-    final UserCredential result = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    final User? user = result.user;
-    print('Successfully registered user: ${user?.uid}');
+    addUser(email, password, password, context);
   } catch (error) {
     print(error.toString());
   }
@@ -27,6 +31,7 @@ class _RegisterScreen extends State<RegisterScreen> {
   // Define the mutable state for this widget
   String email = '';
   String password = '';
+  String confirmPassword = '';
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +92,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    password = value;
+                    confirmPassword = value;
                   });
                 },
               ),
@@ -96,8 +101,7 @@ class _RegisterScreen extends State<RegisterScreen> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  await registerUser(email, password);
-                  Navigator.pop(context);
+                  await registerUser(email, password, confirmPassword, context);
                 },
                 child: const Text("Register"),
               ),
