@@ -4,6 +4,8 @@ import 'items_list_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'admin_options.dart';
+import 'user_options.dart';
 
 CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -20,12 +22,12 @@ Future<void> login(String email, String password, context) async {
           if (doc["role"] == "admin") {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ItemsListScreen()),
+              MaterialPageRoute(builder: (context) => AdminOptionsScreen()),
             );
           } else {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ItemsListScreen()),
+              MaterialPageRoute(builder: (context) => UserOptionsScreen()),
             );
           }
         });
