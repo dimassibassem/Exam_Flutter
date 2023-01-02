@@ -7,9 +7,13 @@ class UserOptionsScreen extends StatefulWidget {
   _UserOptionsScreen createState() => _UserOptionsScreen();
 }
 
+
 class _UserOptionsScreen extends State<UserOptionsScreen> {
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Options'),

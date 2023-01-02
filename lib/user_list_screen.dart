@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -23,6 +24,7 @@ class ItemsListScreen extends StatefulWidget {
 
 Future<void> getDishes() async {
   final fetchedDishes = [];
+  var fetchedFavorites = [];
   try {
     FirebaseFirestore.instance
         .collection('dishes')
@@ -37,12 +39,20 @@ Future<void> getDishes() async {
       }
       _listDishes = fetchedDishes;
     });
+    FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: FirebaseAuth.instance.currentUser!.email)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      fetchedFavorites = querySnapshot.docs[0]['favorites'];
+    });
   } catch (e) {
     print(e);
   }
 }
 
 var _listDishes = [];
+var _listFavorites = [];
 
 class _ItemsListScreenState extends State<ItemsListScreen> {
   @override
@@ -60,8 +70,10 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final listDishes = _listDishes;
+    User? user = FirebaseAuth.instance.currentUser;
 
+    final listDishes = _listDishes;
+    final listFavorites = _listFavorites;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dishes List'),
@@ -81,11 +93,48 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
                   ),
                   title: Text(listDishes[index % listDishes.length].dish),
                   subtitle:
-                  Text(listDishes[index % listDishes.length].description),
+                      Text(listDishes[index % listDishes.length].description),
                   trailing: IconButton(
                     icon: const Icon(Icons.favorite),
+                    color: listFavorites.contains(
+                            listDishes[index % listDishes.length].dish)
+                        ? Colors.red
+                        : Colors.grey,
                     onPressed: () {
-                      // todo : add to favorites
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .where('email', isEqualTo: user!.email)
+                          .get()
+                          .then((QuerySnapshot querySnapshot) {
+                        if (listFavorites.contains(
+                            listDishes[index % listDishes.length].dish)) {
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(querySnapshot.docs[0].id)
+                              .update({
+                            'favorites': FieldValue.arrayRemove(
+                                [listDishes[index % listDishes.length].dish])
+                          });
+                          listFavorites.remove(
+                              listDishes[index % listDishes.length].dish);
+                          setState(() {
+                            _listFavorites = listFavorites;
+                          });
+                        } else {
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(querySnapshot.docs[0].id)
+                              .update({
+                            'favorites': FieldValue.arrayUnion(
+                                [listDishes[index % listDishes.length].dish])
+                          });
+                          listFavorites
+                              .add(listDishes[index % listDishes.length].dish);
+                          setState(() {
+                            _listFavorites = listFavorites;
+                          });
+                        }
+                      });
                     },
                   ),
                 ),
@@ -97,4 +146,3 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
     );
   }
 }
-

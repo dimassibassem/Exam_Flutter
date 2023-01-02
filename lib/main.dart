@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tp_flutter_3/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -5,7 +6,6 @@ import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'admin_options.dart';
 import 'user_options.dart';
-
 
 Future<void> login(String email, String password, context) async {
   try {
@@ -16,6 +16,14 @@ Future<void> login(String email, String password, context) async {
         .get()
         .then((QuerySnapshot querySnapshot) {
       if (querySnapshot.docs.isNotEmpty) {
+        FirebaseAuth.instance.authStateChanges().listen((User? user) {
+          if (user == null) {
+            print('User is currently signed out!');
+          } else {
+            print('User is signed in!');
+          }
+        });
+
         querySnapshot.docs.forEach((doc) {
           if (doc["role"] == "admin") {
             Navigator.push(

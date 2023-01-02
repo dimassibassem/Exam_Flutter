@@ -10,8 +10,10 @@ class AdminOptionsScreen extends StatefulWidget {
 }
 
 class _AdminOptionsScreen extends State<AdminOptionsScreen> {
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Options'),
