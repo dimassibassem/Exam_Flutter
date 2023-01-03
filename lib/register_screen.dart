@@ -4,10 +4,10 @@ import 'main.dart';
 
 CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-Future<void> addUser(email, password, confirmPassword, context) {
+Future<void> addUser(email, password, dropDownSelectedValue, context) {
   // Call the user's CollectionReference to add a new user
   return users
-      .add({'email': email, 'password': password, 'role': 'simple_user'})
+      .add({'email': email, 'password': password, 'role': dropDownSelectedValue})
       .then((value) => Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -16,9 +16,9 @@ Future<void> addUser(email, password, confirmPassword, context) {
 }
 
 Future<void> registerUser(
-    String email, String password, String confirmPassword, context) async {
+    String email, String password, String dropDownSelectedValue, context) async {
   try {
-    addUser(email, password, password, context);
+    addUser(email, password, dropDownSelectedValue, context);
   } catch (error) {
     print(error.toString());
   }
@@ -35,7 +35,8 @@ class _RegisterScreen extends State<RegisterScreen> {
   // Define the mutable state for this widget
   String email = '';
   String password = '';
-  String confirmPassword = '';
+
+  String _dropDownSelectedValue = 'user';
 
   @override
   Widget build(BuildContext context) {
@@ -88,24 +89,31 @@ class _RegisterScreen extends State<RegisterScreen> {
               const SizedBox(
                 height: 20,
               ),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "Confirm Password",
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    confirmPassword = value;
-                  });
-                },
-              ),
+          DropdownButton<String>(
+            isExpanded: true,
+            value: _dropDownSelectedValue,
+            items: ['admin', 'user'].map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (String? value) {
+              setState(() {
+                _dropDownSelectedValue = value!;
+              });
+            },
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
               const SizedBox(
                 height: 10,
               ),
               ElevatedButton(
                 onPressed: () async {
-                  await registerUser(email, password, confirmPassword, context);
+                  await registerUser(email, password, _dropDownSelectedValue, context);
                 },
                 child: const Text("Register"),
               ),
