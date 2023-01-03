@@ -10,7 +10,7 @@ import 'user_options.dart';
 
 Future<void> login(String email, String password, context) async {
   try {
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .where('email', isEqualTo: email)
         .where('password', isEqualTo: password)

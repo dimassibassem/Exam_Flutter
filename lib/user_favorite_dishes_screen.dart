@@ -34,25 +34,23 @@ class FavoriteItemsListScreen extends StatefulWidget {
   State<FavoriteItemsListScreen> createState() => _FavoriteItemsListScreen();
 }
 
-var _listFavorites = [];
-Future<void> getFavDishes() async {
+Future<List> getFavDishes() async {
   var fetchedFavorites = [];
   var fetchedFavoritesNames = [];
   try {
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .where('email', isEqualTo: currentUser)
         .get()
-        .then((QuerySnapshot querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        querySnapshot.docs.forEach((doc) {
-          print(doc);
-        });
+        .then((QuerySnapshot querySnapshot) async {
+      // if (querySnapshot.docs.isNotEmpty) {
         fetchedFavoritesNames = querySnapshot.docs[0]['favorites'];
-        FirebaseFirestore.instance
+       await FirebaseFirestore.instance
             .collection('dishes')
             .get()
             .then((QuerySnapshot querySnapshot) {
+              print("fetchedFavoritesNames");
+              print(fetchedFavoritesNames);
           for (var doc in querySnapshot.docs) {
             if (fetchedFavoritesNames.contains(doc['dish'])) {
               fetchedFavorites.add(Dish(
@@ -62,23 +60,34 @@ Future<void> getFavDishes() async {
               ));
             }
           }
-          _listFavorites = fetchedFavorites;
+          print("fetchedFavorites");
+          print(fetchedFavorites);
+          return fetchedFavorites;
         });
-      }
+      // }
+      // return fetchedFavorites;
     });
   } catch (e) {
     print(e);
   }
+  print("here");
+  return fetchedFavorites;
 }
 
-
 class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
+  var _listFavorites = [];
   @override
   void initState() {
     super.initState();
     try {
       getCurrentUser();
-      getFavDishes();
+      getFavDishes().then((value) {
+        print("value");
+        print(value);
+        setState(() {
+          _listFavorites = value;
+        });
+      });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error.toString())),
@@ -87,11 +96,9 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    getCurrentUser();
+    // getCurrentUser();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dishes List'),
@@ -110,33 +117,33 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
                       _listFavorites[index % _listFavorites.length].photo,
                       width: 50,
                     ),
-                    title:
-                        Text(_listFavorites[index % _listFavorites.length].dish),
+                    title: Text(
+                        _listFavorites[index % _listFavorites.length].dish),
                     subtitle: Text(_listFavorites[index % _listFavorites.length]
                         .description),
                     trailing: IconButton(
                       icon: const Icon(Icons.favorite),
                       color: Colors.red,
-                      onPressed: () {
-                        FirebaseFirestore.instance
+                      onPressed: () async{
+                       await FirebaseFirestore.instance
                             .collection('users')
                             .where('email', isEqualTo: currentUser)
                             .get()
-                            .then((QuerySnapshot querySnapshot) {
+                            .then((QuerySnapshot querySnapshot) async {
                           if (querySnapshot.docs.isNotEmpty) {
                             var fetchedFavorites =
                                 querySnapshot.docs[0]['favorites'];
                             fetchedFavorites.remove(
                                 _listFavorites[index % _listFavorites.length]
                                     .dish);
-                            FirebaseFirestore.instance
+                          await FirebaseFirestore.instance
                                 .collection('users')
                                 .doc(querySnapshot.docs[0].id)
                                 .update({'favorites': fetchedFavorites});
                           }
-                        setState(() {
-                          _listFavorites.removeAt(index);
-                        });
+                          setState(() {
+                            _listFavorites.removeAt(index);
+                          });
                         });
                       },
                     ),

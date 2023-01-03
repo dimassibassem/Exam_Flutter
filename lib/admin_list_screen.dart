@@ -24,7 +24,7 @@ class ItemsListScreen extends StatefulWidget {
 Future<void> getDishes() async {
   final fetchedDishes = [];
   try {
-        FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('dishes')
           .get()
           .then((QuerySnapshot querySnapshot) {
@@ -109,8 +109,8 @@ class EditDishScreen extends StatelessWidget {
 
   final Dish dish;
 
-  Future<void> updateDish(dish, newDishTitle, description) {
-    return FirebaseFirestore.instance
+  Future<void> updateDish(dish, newDishTitle, description) async {
+    await FirebaseFirestore.instance
         .collection('dishes')
         .where('dish', isEqualTo: dish)
         .get()
@@ -206,8 +206,8 @@ class EditDishScreen extends StatelessWidget {
   }
 }
 
-Future<void> deleteDish(dish) {
-  return FirebaseFirestore.instance
+Future<void> deleteDish(dish) async {
+  await FirebaseFirestore.instance
       .collection('dishes')
       .where('dish', isEqualTo: dish)
       .get()
