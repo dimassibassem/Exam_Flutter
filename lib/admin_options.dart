@@ -21,7 +21,6 @@ class _AdminOptionsScreen extends State<AdminOptionsScreen> {
   @override
   Widget build(BuildContext context) {
   getCurrentUser();
-print(current);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Options'),

@@ -19,7 +19,6 @@ Future<void> login(String email, String password, context) async {
       if (querySnapshot.docs.isNotEmpty) {
           await SessionManager().set("email", email);
           currentUser = await SessionManager().get('email');
-          print(currentUser);
         for (var doc in querySnapshot.docs) {
           if (doc["role"] == "admin") {
             Navigator.push(

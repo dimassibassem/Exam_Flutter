@@ -60,12 +60,9 @@ Future<List> getCurrentUserFavorites() async {
         .then((QuerySnapshot querySnapshot) {
       if (querySnapshot.docs.isNotEmpty) {
         fetchedFavorites = querySnapshot.docs[0]['favorites'];
-        print("fetchedFavorites");
-        print(fetchedFavorites);
       }
     });
   } catch (e) {
-    print("error");
     print(e);
   }
   return fetchedFavorites;
@@ -85,13 +82,9 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
         });
       });
       getCurrentUserFavorites().then((value) {
-        print(value);
         setState(() {
           _listFavorites = value;
         });
-      });
-      _listFavorites.forEach((element) {
-        print(element);
       });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(

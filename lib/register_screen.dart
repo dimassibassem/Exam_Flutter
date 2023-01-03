@@ -8,7 +8,6 @@ Future<void> addUser(email, password, confirmPassword, context) {
   // Call the user's CollectionReference to add a new user
   return users
       .add({'email': email, 'password': password, 'role': 'simple_user'})
-      .then((value) => print("User Added"))
       .then((value) => Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomeScreen()),

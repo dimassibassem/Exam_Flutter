@@ -49,8 +49,6 @@ Future<List> getFavDishes() async {
             .collection('dishes')
             .get()
             .then((QuerySnapshot querySnapshot) {
-              print("fetchedFavoritesNames");
-              print(fetchedFavoritesNames);
           for (var doc in querySnapshot.docs) {
             if (fetchedFavoritesNames.contains(doc['dish'])) {
               fetchedFavorites.add(Dish(
@@ -60,8 +58,6 @@ Future<List> getFavDishes() async {
               ));
             }
           }
-          print("fetchedFavorites");
-          print(fetchedFavorites);
           return fetchedFavorites;
         });
       // }
@@ -70,7 +66,6 @@ Future<List> getFavDishes() async {
   } catch (e) {
     print(e);
   }
-  print("here");
   return fetchedFavorites;
 }
 
@@ -82,7 +77,6 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
     try {
       getCurrentUser();
       getFavDishes().then((value) {
-        print("value");
         print(value);
         setState(() {
           _listFavorites = value;
