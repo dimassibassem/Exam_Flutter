@@ -8,12 +8,10 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 class Dish {
   final String dish;
   final String description;
-  final String photo;
 
   Dish({
     required this.dish,
     required this.description,
-    required this.photo,
   });
 }
 
@@ -38,7 +36,6 @@ Future<List> getDishes() async {
         fetchedDishes.add(Dish(
           dish: doc['dish'],
           description: doc['description'],
-          photo: doc['photo'],
         ));
       }
       return fetchedDishes;
@@ -122,10 +119,6 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
             itemBuilder: (context, index) {
               return Card(
                 child: ListTile(
-                  leading: Image.network(
-                    listDishes[index % listDishes.length].photo,
-                    width: 50,
-                  ),
                   title: Text(listDishes[index % listDishes.length].dish),
                   subtitle:
                       Text(listDishes[index % listDishes.length].description),

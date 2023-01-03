@@ -8,12 +8,10 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 class Dish {
   final String dish;
   final String description;
-  final String photo;
 
   Dish({
     required this.dish,
     required this.description,
-    required this.photo,
   });
 }
 
@@ -54,7 +52,6 @@ Future<List> getFavDishes() async {
               fetchedFavorites.add(Dish(
                 dish: doc['dish'],
                 description: doc['description'],
-                photo: doc['photo'],
               ));
             }
           }
@@ -107,10 +104,6 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
               if (_listFavorites.isNotEmpty) {
                 return Card(
                   child: ListTile(
-                    leading: Image.network(
-                      _listFavorites[index % _listFavorites.length].photo,
-                      width: 50,
-                    ),
                     title: Text(
                         _listFavorites[index % _listFavorites.length].dish),
                     subtitle: Text(_listFavorites[index % _listFavorites.length]

@@ -153,7 +153,6 @@ class _AddItemScreen extends State<AddItemScreen> {
                               .add({
                             'dish': dish,
                             'description': description,
-                            'photo': 'https://picsum.photos/200/300',
                           });
                         } catch (e) {
                           print(e);
