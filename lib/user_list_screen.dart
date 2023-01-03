@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+
 class Dish {
   final String dish;
   final String description;
@@ -38,7 +40,12 @@ Future<void> getDishes() async {
         ));
       }
       _listDishes = fetchedDishes;
+      _listFavorites = fetchedFavorites;
     });
+  } catch (e) {
+    print(e);
+  }
+  try {
     FirebaseFirestore.instance
         .collection('users')
         .where('email', isEqualTo: FirebaseAuth.instance.currentUser!.email)
@@ -68,9 +75,19 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
     }
   }
 
+  var currentUser = '';
+
+  Future<void> getCurrentUser() async {
+    try {
+      currentUser = await SessionManager().get('email');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
+    getCurrentUser();
 
     final listDishes = _listDishes;
     final listFavorites = _listFavorites;
@@ -103,7 +120,7 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
                     onPressed: () {
                       FirebaseFirestore.instance
                           .collection('users')
-                          .where('email', isEqualTo: user!.email)
+                          .where('email', isEqualTo: currentUser)
                           .get()
                           .then((QuerySnapshot querySnapshot) {
                         if (listFavorites.contains(

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:tp_flutter_3/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -14,29 +15,24 @@ Future<void> login(String email, String password, context) async {
         .where('email', isEqualTo: email)
         .where('password', isEqualTo: password)
         .get()
-        .then((QuerySnapshot querySnapshot) {
+        .then((QuerySnapshot querySnapshot) async {
       if (querySnapshot.docs.isNotEmpty) {
-        FirebaseAuth.instance.authStateChanges().listen((User? user) {
-          if (user == null) {
-            print('User is currently signed out!');
-          } else {
-            print('User is signed in!');
-          }
-        });
-
-        querySnapshot.docs.forEach((doc) {
+          await SessionManager().set("email", email);
+          currentUser = await SessionManager().get('email');
+          print(currentUser);
+        for (var doc in querySnapshot.docs) {
           if (doc["role"] == "admin") {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AdminOptionsScreen()),
+              MaterialPageRoute(builder: (context) => const AdminOptionsScreen()),
             );
           } else {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => UserOptionsScreen()),
+              MaterialPageRoute(builder: (context) => const UserOptionsScreen()),
             );
           }
-        });
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -143,8 +139,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: const Text("Forgot Password"),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      login(_email, _password, context);
+                    onPressed: () async {
+                    await login(_email, _password, context);
                     },
                     child: const Text("Login"),
                   ),

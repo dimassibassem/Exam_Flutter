@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'admin_list_screen.dart';
 
 class AdminOptionsScreen extends StatefulWidget {
@@ -8,12 +9,19 @@ class AdminOptionsScreen extends StatefulWidget {
   @override
   _AdminOptionsScreen createState() => _AdminOptionsScreen();
 }
-
+var current = '';
+Future<void> getCurrentUser() async {
+  try {
+    current = await SessionManager().get('email');
+  } catch (e) {
+    print(e);
+  }
+}
 class _AdminOptionsScreen extends State<AdminOptionsScreen> {
-
   @override
   Widget build(BuildContext context) {
-
+  getCurrentUser();
+print(current);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Options'),
