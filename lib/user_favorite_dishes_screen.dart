@@ -41,7 +41,6 @@ Future<List> getFavDishes() async {
         .where('email', isEqualTo: currentUser)
         .get()
         .then((QuerySnapshot querySnapshot) async {
-      // if (querySnapshot.docs.isNotEmpty) {
         fetchedFavoritesNames = querySnapshot.docs[0]['favorites'];
        await FirebaseFirestore.instance
             .collection('dishes')
@@ -57,8 +56,6 @@ Future<List> getFavDishes() async {
           }
           return fetchedFavorites;
         });
-      // }
-      // return fetchedFavorites;
     });
   } catch (e) {
     print(e);
@@ -89,7 +86,6 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // getCurrentUser();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dishes List'),

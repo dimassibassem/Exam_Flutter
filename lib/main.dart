@@ -63,7 +63,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      //Material App
       debugShowCheckedModeBanner: false,
       title: "Login App",
       home: HomeScreen(),
@@ -86,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login or Register'),
+        title: const Text('Login'),
       ),
       body: SafeArea(
         child: Container(
@@ -95,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "Login or Register",
+                "Login",
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
@@ -130,13 +129,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               ),
+              const SizedBox(
+                height: 20,
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text("Forgot Password"),
-                  ),
                   ElevatedButton(
                     onPressed: () async {
                     await login(_email, _password, context);

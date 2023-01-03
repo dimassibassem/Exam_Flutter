@@ -26,7 +26,6 @@ class ItemsListScreen extends StatefulWidget {
 
 Future<List> getDishes() async {
   final fetchedDishes = [];
-  // var fetchedFavorites = [];
   try {
   await FirebaseFirestore.instance
         .collection('dishes')
@@ -39,7 +38,6 @@ Future<List> getDishes() async {
         ));
       }
       return fetchedDishes;
-      // _listFavorites = fetchedFavorites;
     });
   } catch (e) {
     print(e);
