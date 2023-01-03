@@ -154,6 +154,7 @@ class _AddItemScreen extends State<AddItemScreen> {
                             'dish': dish,
                             'description': description,
                           });
+                          Navigator.pop(context);
                         } catch (e) {
                           print(e);
                         }

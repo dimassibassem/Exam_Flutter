@@ -18,35 +18,40 @@ class ItemsListScreen extends StatefulWidget {
   @override
   State<ItemsListScreen> createState() => _ItemsListScreenState();
 }
-
-Future<void> getDishes() async {
+Future<List> getDishes() async {
   final fetchedDishes = [];
+  // var fetchedFavorites = [];
   try {
-      await FirebaseFirestore.instance
-          .collection('dishes')
-          .get()
-          .then((QuerySnapshot querySnapshot) {
-        for (var doc in querySnapshot.docs) {
-          fetchedDishes.add(Dish(
-            dish: doc['dish'],
-            description: doc['description'],
-          ));
-        }
-        _listDishes = fetchedDishes;
-      });
+    await FirebaseFirestore.instance
+        .collection('dishes')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        fetchedDishes.add(Dish(
+          dish: doc['dish'],
+          description: doc['description'],
+        ));
+      }
+      return fetchedDishes;
+      // _listFavorites = fetchedFavorites;
+    });
   } catch (e) {
     print(e);
   }
+  return fetchedDishes;
 }
 
-var _listDishes = [];
-
 class _ItemsListScreenState extends State<ItemsListScreen> {
+var _listDishes = [];
   @override
   void initState() {
     super.initState();
     try {
-       getDishes();
+       getDishes().then((value) {
+         setState(() {
+           _listDishes = value;
+         });
+       });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error.toString())),
@@ -169,8 +174,8 @@ class EditDishScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      deleteDish(dish.dish);
+                    onPressed: () async {
+                      await deleteDish(dish.dish);
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
@@ -179,8 +184,8 @@ class EditDishScreen extends StatelessWidget {
                     child: const Text('Delete Dish'),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      updateDish(
+                    onPressed: () async {
+                      await updateDish(
                         dish.dish,
                         dishTitleController.text,
                         descriptionController.text,
