@@ -23,6 +23,15 @@ class _UserOptionsScreen extends State<UserOptionsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Options'),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              }
+          ),
+        ],
       ),
       body: SafeArea(
         child: Container(

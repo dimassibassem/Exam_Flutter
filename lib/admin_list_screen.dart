@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+
 class Dish {
   final String dish;
   final String description;
@@ -20,7 +22,6 @@ class ItemsListScreen extends StatefulWidget {
 }
 Future<List> getDishes() async {
   final fetchedDishes = [];
-  // var fetchedFavorites = [];
   try {
     await FirebaseFirestore.instance
         .collection('dishes')
@@ -33,7 +34,6 @@ Future<List> getDishes() async {
         ));
       }
       return fetchedDishes;
-      // _listFavorites = fetchedFavorites;
     });
   } catch (e) {
     print(e);
@@ -67,6 +67,15 @@ var _listDishes = [];
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dishes List'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await SessionManager().set("email", "");
+              Navigator.of(context).pushReplacementNamed('/');
+            }
+          ),
+        ],
       ),
       body: SafeArea(
         child: Container(

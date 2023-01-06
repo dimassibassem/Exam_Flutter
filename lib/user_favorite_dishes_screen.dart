@@ -87,6 +87,15 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dishes List'),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              }
+          ),
+        ],
       ),
       body: SafeArea(
         child: Container(

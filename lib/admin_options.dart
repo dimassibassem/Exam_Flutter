@@ -24,7 +24,17 @@ class _AdminOptionsScreen extends State<AdminOptionsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Options'),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              }
+          ),
+        ],
       ),
+
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -84,6 +94,15 @@ class _AddItemScreen extends State<AddItemScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Dishes'),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              }
+          ),
+        ],
       ),
       body: SafeArea(
         child: Container(
