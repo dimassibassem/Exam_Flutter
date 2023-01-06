@@ -147,17 +147,7 @@ class _AddItemScreen extends State<AddItemScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () async {
-                        try {
-                          await FirebaseFirestore.instance
-                              .collection('dishes')
-                              .add({
-                            'dish': dish,
-                            'description': description,
-                          });
-                          Navigator.pop(context);
-                        } catch (e) {
-                          print(e);
-                        }
+                        await addDish(dish, description,context);
                       },
                       child: const Text("Add"),
                     ),
@@ -172,5 +162,19 @@ class _AddItemScreen extends State<AddItemScreen> {
         ),
       ),
     );
+  }
+}
+
+Future<void> addDish(dish,description,context) async {
+  try {
+    await FirebaseFirestore.instance
+        .collection('dishes')
+        .add({
+      'dish': dish,
+      'description': description,
+    });
+    Navigator.pop(context);
+  } catch (e) {
+    print(e);
   }
 }

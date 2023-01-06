@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -71,7 +70,6 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
     try {
       getCurrentUser();
       getFavDishes().then((value) {
-        print(value);
         setState(() {
           _listFavorites = value;
         });
@@ -108,25 +106,22 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
                       icon: const Icon(Icons.favorite),
                       color: Colors.red,
                       onPressed: () async{
-                       await FirebaseFirestore.instance
+                        await FirebaseFirestore.instance
                             .collection('users')
                             .where('email', isEqualTo: currentUser)
                             .get()
                             .then((QuerySnapshot querySnapshot) async {
-                          if (querySnapshot.docs.isNotEmpty) {
-                            var fetchedFavorites =
-                                querySnapshot.docs[0]['favorites'];
-                            fetchedFavorites.remove(
-                                _listFavorites[index % _listFavorites.length]
-                                    .dish);
                           await FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(querySnapshot.docs[0].id)
-                                .update({'favorites': fetchedFavorites});
-                          }
-                          setState(() {
-                            _listFavorites.removeAt(index);
+                              .collection('users')
+                              .doc(querySnapshot.docs[0].id)
+                              .update({
+                            'favorites': FieldValue.arrayRemove([
+                              _listFavorites[index % _listFavorites.length].dish
+                            ])
                           });
+                        });
+                        setState(() {
+                          _listFavorites.removeAt(index);
                         });
                       },
                     ),
@@ -143,3 +138,4 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
     );
   }
 }
+
