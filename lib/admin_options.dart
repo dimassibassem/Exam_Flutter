@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'admin_list_screen.dart';
+import 'main.dart';
 
 class AdminOptionsScreen extends StatefulWidget {
   const AdminOptionsScreen({Key? key}) : super(key: key);
@@ -10,20 +11,12 @@ class AdminOptionsScreen extends StatefulWidget {
   _AdminOptionsScreen createState() => _AdminOptionsScreen();
 }
 
-var current = '';
-
-Future<void> getCurrentUser() async {
-  try {
-    current = await SessionManager().get('email');
-  } catch (e) {
-    print(e);
-  }
-}
+var currentUser = '';
 
 class _AdminOptionsScreen extends State<AdminOptionsScreen> {
   @override
   Widget build(BuildContext context) {
-    getCurrentUser();
+    getCurrentUser(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Options'),
@@ -32,7 +25,10 @@ class _AdminOptionsScreen extends State<AdminOptionsScreen> {
               icon: const Icon(Icons.logout),
               onPressed: () async {
                 await SessionManager().set("email", "");
-                Navigator.of(context).pushReplacementNamed('/');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
               }),
         ],
       ),
@@ -317,6 +313,20 @@ Future<void> addDish(dish, description, context) async {
       'description': description,
     });
     Navigator.pop(context);
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future<void> getCurrentUser(context) async {
+  try {
+    currentUser = await SessionManager().get('email');
+    if (currentUser == '') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    }
   } catch (e) {
     print(e);
   }

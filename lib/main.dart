@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:tp_flutter_3/register_screen.dart';
@@ -18,7 +17,6 @@ Future<void> login(String email, String password, context) async {
         .then((QuerySnapshot querySnapshot) async {
       if (querySnapshot.docs.isNotEmpty) {
           await SessionManager().set("email", email);
-          currentUser = await SessionManager().get('email');
         for (var doc in querySnapshot.docs) {
           if (doc["role"] == "admin") {
             Navigator.push(

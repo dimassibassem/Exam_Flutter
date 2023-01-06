@@ -5,6 +5,8 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:tp_flutter_3/user_favorite_dishes_screen.dart';
 import 'package:tp_flutter_3/user_options.dart';
 
+import 'main.dart';
+
 class Dish {
   final String dish;
   final String description;
@@ -89,9 +91,15 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
     }
   }
 
-  Future<void> getCurrentUser() async {
+  Future<void> getCurrentUser(context) async {
     try {
       currentUser = await SessionManager().get('email');
+      if (currentUser == '') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+      }
     } catch (e) {
       print(e);
     }
@@ -99,7 +107,7 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getCurrentUser();
+    getCurrentUser(context);
 
     final listDishes = _listDishes;
     final listFavorites = _listFavorites;

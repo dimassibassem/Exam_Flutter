@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'main.dart';
 import 'user_list_screen.dart';
 import 'user_favorite_dishes_screen.dart';
 
@@ -12,9 +13,15 @@ class UserOptionsScreen extends StatefulWidget {
 
 var currentUser = '';
 
-Future<void> getCurrentUser() async {
+Future<void> getCurrentUser(context) async {
   try {
     currentUser = await SessionManager().get('email');
+    if (currentUser == '') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    }
   } catch (e) {
     print(e);
   }
@@ -23,7 +30,7 @@ Future<void> getCurrentUser() async {
 class _UserOptionsScreen extends State<UserOptionsScreen> {
   @override
   Widget build(BuildContext context) {
-    getCurrentUser();
+    getCurrentUser(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Options'),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:tp_flutter_3/user_options.dart';
+import 'main.dart';
 import 'user_list_screen.dart';
 
 class Dish {
@@ -17,9 +18,15 @@ class Dish {
 
 var currentUser = '';
 
-Future<void> getCurrentUser() async {
+Future<void> getCurrentUser(context) async {
   try {
     currentUser = await SessionManager().get('email');
+    if (currentUser == '') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    }
   } catch (e) {
     print(e);
   }
@@ -69,7 +76,7 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
   void initState() {
     super.initState();
     try {
-      getCurrentUser();
+      getCurrentUser(context);
       getFavDishes().then((value) {
         setState(() {
           _listFavorites = value;
