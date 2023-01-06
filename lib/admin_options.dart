@@ -9,7 +9,9 @@ class AdminOptionsScreen extends StatefulWidget {
   @override
   _AdminOptionsScreen createState() => _AdminOptionsScreen();
 }
+
 var current = '';
+
 Future<void> getCurrentUser() async {
   try {
     current = await SessionManager().get('email');
@@ -17,10 +19,11 @@ Future<void> getCurrentUser() async {
     print(e);
   }
 }
+
 class _AdminOptionsScreen extends State<AdminOptionsScreen> {
   @override
   Widget build(BuildContext context) {
-  getCurrentUser();
+    getCurrentUser();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Options'),
@@ -30,8 +33,7 @@ class _AdminOptionsScreen extends State<AdminOptionsScreen> {
               onPressed: () async {
                 await SessionManager().set("email", "");
                 Navigator.of(context).pushReplacementNamed('/');
-              }
-          ),
+              }),
         ],
       ),
       drawer: Drawer(
@@ -148,8 +150,7 @@ class _AddItemScreen extends State<AddItemScreen> {
               onPressed: () async {
                 await SessionManager().set("email", "");
                 Navigator.of(context).pushReplacementNamed('/');
-              }
-          ),
+              }),
         ],
       ),
       drawer: Drawer(
@@ -263,7 +264,7 @@ class _AddItemScreen extends State<AddItemScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () async {
-                        await addDish(dish, description,context);
+                        await addDish(dish, description, context);
                       },
                       child: const Text("Add"),
                     ),
@@ -281,11 +282,9 @@ class _AddItemScreen extends State<AddItemScreen> {
   }
 }
 
-Future<void> addDish(dish,description,context) async {
+Future<void> addDish(dish, description, context) async {
   try {
-    await FirebaseFirestore.instance
-        .collection('dishes')
-        .add({
+    await FirebaseFirestore.instance.collection('dishes').add({
       'dish': dish,
       'description': description,
     });
