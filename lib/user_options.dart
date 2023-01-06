@@ -37,12 +37,23 @@ class _UserOptionsScreen extends State<UserOptionsScreen> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: [
-            const DrawerHeader(
-              child: Text('Menu'),
+            Container(
+              height: 120,
+              color: Colors.blue,
+              child: const Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                  ),
+                ),
+              ),
             ),
             ListTile(
+              leading: Icon(Icons.home),
               title: const Text('Home'),
               onTap: () {
                 Navigator.push(
@@ -54,6 +65,7 @@ class _UserOptionsScreen extends State<UserOptionsScreen> {
               },
             ),
             ListTile(
+              leading: Icon(Icons.list),
               title: const Text('Dishes'),
               onTap: () {
                 Navigator.push(
@@ -65,7 +77,8 @@ class _UserOptionsScreen extends State<UserOptionsScreen> {
               },
             ),
             ListTile(
-              title: const Text('Favorite Dishes'),
+              leading: Icon(Icons.favorite),
+              title: const Text('favorite Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -76,6 +89,7 @@ class _UserOptionsScreen extends State<UserOptionsScreen> {
               },
             ),
             ListTile(
+              leading: Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () async {
                 await SessionManager().set("email", "");

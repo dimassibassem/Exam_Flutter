@@ -99,13 +99,24 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: [
-            DrawerHeader(
-              child: Text('Menu'),
+            Container(
+              height: 120,
+              color: Colors.blue,
+              child: const Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                  ),
+                ),
+              ),
             ),
             ListTile(
-              title: Text('Home'),
+              leading: Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -116,7 +127,8 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
               },
             ),
             ListTile(
-              title: Text('Dishes'),
+              leading: Icon(Icons.list),
+              title: const Text('Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -127,7 +139,8 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
               },
             ),
             ListTile(
-              title: Text('Favorite Dishes'),
+              leading: Icon(Icons.favorite),
+              title: const Text('favorite Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -138,7 +151,8 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
               },
             ),
             ListTile(
-              title: Text('Logout'),
+              leading: Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () async {
                 await SessionManager().set("email", "");
                 Navigator.of(context).pushReplacementNamed('/');

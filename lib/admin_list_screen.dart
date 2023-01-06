@@ -20,6 +20,7 @@ class ItemsListScreen extends StatefulWidget {
   @override
   State<ItemsListScreen> createState() => _ItemsListScreenState();
 }
+
 Future<List> getDishes() async {
   final fetchedDishes = [];
   try {
@@ -42,16 +43,17 @@ Future<List> getDishes() async {
 }
 
 class _ItemsListScreenState extends State<ItemsListScreen> {
-var _listDishes = [];
+  var _listDishes = [];
+
   @override
   void initState() {
     super.initState();
     try {
-       getDishes().then((value) {
-         setState(() {
-           _listDishes = value;
-         });
-       });
+      getDishes().then((value) {
+        setState(() {
+          _listDishes = value;
+        });
+      });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error.toString())),
@@ -69,22 +71,32 @@ var _listDishes = [];
         title: const Text('Dishes List'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await SessionManager().set("email", "");
-              Navigator.of(context).pushReplacementNamed('/');
-            }
-          ),
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              }),
         ],
       ),
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: [
-            DrawerHeader(
-              child: Text('Menu'),
+            Container(
+              height: 120,
+              color: Colors.blue,
+              child: const Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                  ),
+                ),
+              ),
             ),
             ListTile(
-              title: Text('Home'),
+              leading: Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -95,7 +107,8 @@ var _listDishes = [];
               },
             ),
             ListTile(
-              title: Text('Dishes'),
+              leading: Icon(Icons.list),
+              title: const Text('Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -106,7 +119,8 @@ var _listDishes = [];
               },
             ),
             ListTile(
-              title: Text('Add Dishes'),
+              leading: Icon(Icons.add),
+              title: const Text('Add Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -117,7 +131,8 @@ var _listDishes = [];
               },
             ),
             ListTile(
-              title: Text('Logout'),
+              leading: Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () async {
                 await SessionManager().set("email", "");
                 Navigator.of(context).pushReplacementNamed('/');
@@ -190,13 +205,24 @@ class EditDishScreen extends StatelessWidget {
         title: const Text('Edit Dish'),
       ),
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: [
-            DrawerHeader(
-              child: Text('Menu'),
+            Container(
+              height: 120,
+              color: Colors.blue,
+              child: const Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                  ),
+                ),
+              ),
             ),
             ListTile(
-              title: Text('Home'),
+              leading: Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -207,7 +233,8 @@ class EditDishScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Dishes'),
+              leading: Icon(Icons.list),
+              title: const Text('Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -218,7 +245,8 @@ class EditDishScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Add Dishes'),
+              leading: Icon(Icons.add),
+              title: const Text('Add Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -229,7 +257,8 @@ class EditDishScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Logout'),
+              leading: Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () async {
                 await SessionManager().set("email", "");
                 Navigator.of(context).pushReplacementNamed('/');

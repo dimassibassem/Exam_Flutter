@@ -37,13 +37,24 @@ class _AdminOptionsScreen extends State<AdminOptionsScreen> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: [
-            DrawerHeader(
-              child: Text('Menu'),
+            Container(
+              height: 120,
+              color: Colors.blue,
+              child: const Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                  ),
+                ),
+              ),
             ),
             ListTile(
-              title: Text('Home'),
+              leading: Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -54,7 +65,8 @@ class _AdminOptionsScreen extends State<AdminOptionsScreen> {
               },
             ),
             ListTile(
-              title: Text('Dishes'),
+              leading: Icon(Icons.list),
+              title: const Text('Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -65,7 +77,8 @@ class _AdminOptionsScreen extends State<AdminOptionsScreen> {
               },
             ),
             ListTile(
-              title: Text('Add Dishes'),
+              leading: Icon(Icons.add),
+              title: const Text('Add Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -76,7 +89,8 @@ class _AdminOptionsScreen extends State<AdminOptionsScreen> {
               },
             ),
             ListTile(
-              title: Text('Logout'),
+              leading: Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () async {
                 await SessionManager().set("email", "");
                 Navigator.of(context).pushReplacementNamed('/');
@@ -154,13 +168,24 @@ class _AddItemScreen extends State<AddItemScreen> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: [
-            DrawerHeader(
-              child: Text('Menu'),
+            Container(
+              height: 120,
+              color: Colors.blue,
+              child: const Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                  ),
+                ),
+              ),
             ),
             ListTile(
-              title: Text('Home'),
+              leading: Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -171,7 +196,8 @@ class _AddItemScreen extends State<AddItemScreen> {
               },
             ),
             ListTile(
-              title: Text('Dishes'),
+              leading: Icon(Icons.list),
+              title: const Text('Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -182,7 +208,8 @@ class _AddItemScreen extends State<AddItemScreen> {
               },
             ),
             ListTile(
-              title: Text('Add Dishes'),
+              leading: Icon(Icons.add),
+              title: const Text('Add Dishes'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -193,7 +220,8 @@ class _AddItemScreen extends State<AddItemScreen> {
               },
             ),
             ListTile(
-              title: Text('Logout'),
+              leading: Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () async {
                 await SessionManager().set("email", "");
                 Navigator.of(context).pushReplacementNamed('/');
