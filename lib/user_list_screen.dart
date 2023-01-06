@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:tp_flutter_3/user_favorite_dishes_screen.dart';
+import 'package:tp_flutter_3/user_options.dart';
 
 class Dish {
   final String dish;
@@ -85,7 +85,6 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error.toString())),
       );
-
       print(error.toString());
     }
   }
@@ -116,6 +115,55 @@ class _ItemsListScreenState extends State<ItemsListScreen> {
               }
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Text('Menu'),
+            ),
+            ListTile(
+              title: Text('Home'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserOptionsScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ItemsListScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Favorite Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoriteItemsListScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Logout'),
+              onTap: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              },
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         child: Container(

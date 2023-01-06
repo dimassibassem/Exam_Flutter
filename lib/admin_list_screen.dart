@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'admin_options.dart';
 
 class Dish {
   final String dish;
@@ -77,6 +77,55 @@ var _listDishes = [];
           ),
         ],
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Text('Menu'),
+            ),
+            ListTile(
+              title: Text('Home'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AdminOptionsScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ItemsListScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Add Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddItemScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Logout'),
+              onTap: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              },
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -139,6 +188,55 @@ class EditDishScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Dish'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Text('Menu'),
+            ),
+            ListTile(
+              title: Text('Home'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AdminOptionsScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ItemsListScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Add Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddItemScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Logout'),
+              onTap: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              },
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         child: Container(

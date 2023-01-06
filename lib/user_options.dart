@@ -2,24 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'user_list_screen.dart';
 import 'user_favorite_dishes_screen.dart';
+
 class UserOptionsScreen extends StatefulWidget {
   const UserOptionsScreen({Key? key}) : super(key: key);
 
   @override
   _UserOptionsScreen createState() => _UserOptionsScreen();
 }
+
 var currentUser = '';
-  Future<void> getCurrentUser() async {
-    try {
+
+Future<void> getCurrentUser() async {
+  try {
     currentUser = await SessionManager().get('email');
   } catch (e) {
-      print(e);
-    }
+    print(e);
   }
+}
+
 class _UserOptionsScreen extends State<UserOptionsScreen> {
   @override
   Widget build(BuildContext context) {
-  getCurrentUser();
+    getCurrentUser();
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Options'),
@@ -29,9 +33,57 @@ class _UserOptionsScreen extends State<UserOptionsScreen> {
               onPressed: () async {
                 await SessionManager().set("email", "");
                 Navigator.of(context).pushReplacementNamed('/');
-              }
-          ),
+              }),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              child: Text('Menu'),
+            ),
+            ListTile(
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserOptionsScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ItemsListScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Favorite Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoriteItemsListScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Logout'),
+              onTap: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              },
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         child: Container(

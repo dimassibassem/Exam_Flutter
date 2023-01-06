@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:tp_flutter_3/user_options.dart';
+import 'user_list_screen.dart';
 
 class Dish {
   final String dish;
@@ -86,7 +87,7 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dishes List'),
+        title: const Text('Favorite Dishes List'),
         actions: [
           IconButton(
               icon: const Icon(Icons.logout),
@@ -96,6 +97,55 @@ class _FavoriteItemsListScreen extends State<FavoriteItemsListScreen> {
               }
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Text('Menu'),
+            ),
+            ListTile(
+              title: Text('Home'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserOptionsScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ItemsListScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Favorite Dishes'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoriteItemsListScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Logout'),
+              onTap: () async {
+                await SessionManager().set("email", "");
+                Navigator.of(context).pushReplacementNamed('/');
+              },
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         child: Container(
